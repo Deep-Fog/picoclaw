@@ -55,7 +55,18 @@ func ExtractProtocol(model string) (protocol, modelID string) {
 // It uses the protocol prefix in the Model field to determine which provider to create.
 // Supported protocols: openai, litellm, anthropic, antigravity, claude-cli, codex-cli, github-copilot
 // Returns the provider, the model ID (without protocol prefix), and any error.
+// If rpm or max_concurrent are set in the config, the returned provider is wrapped with
+// a RateLimitedProvider that enforces those limits transparently.
 func CreateProviderFromConfig(cfg *config.ModelConfig) (LLMProvider, string, error) {
+	provider, modelID, err := createRawProvider(cfg)
+	if err != nil {
+		return nil, "", err
+	}
+	return NewRateLimitedProvider(provider, cfg.RPM, cfg.MaxConcurrent), modelID, nil
+}
+
+// createRawProvider creates the underlying LLMProvider without any rate limiting.
+func createRawProvider(cfg *config.ModelConfig) (LLMProvider, string, error) {
 	if cfg == nil {
 		return nil, "", fmt.Errorf("config is nil")
 	}
@@ -172,6 +183,7 @@ func CreateProviderFromConfig(cfg *config.ModelConfig) (LLMProvider, string, err
 		return nil, "", fmt.Errorf("unknown protocol %q in model %q", protocol, cfg.Model)
 	}
 }
+
 
 // getDefaultAPIBase returns the default API base URL for a given protocol.
 func getDefaultAPIBase(protocol string) string {
