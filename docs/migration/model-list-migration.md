@@ -116,6 +116,7 @@ The `model` field uses a protocol prefix format: `[protocol/]model-identifier`
 | `auth_method` | No | Authentication method: `oauth`, `token` |
 | `connect_mode` | No | Connection mode for CLI providers: `stdio`, `grpc` |
 | `rpm` | No | Requests per minute limit |
+| `max_concurrent` | No | Max concurrent requests limit |
 | `max_tokens_field` | No | Field name for max tokens |
 | `request_timeout` | No | HTTP request timeout in seconds; `<=0` uses default `120s` |
 

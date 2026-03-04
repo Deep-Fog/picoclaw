@@ -1049,9 +1049,13 @@ This design also enables **multi-agent support** with flexible provider selectio
   "model": "openai/custom-model",
   "api_base": "https://my-proxy.com/v1",
   "api_key": "sk-...",
-  "request_timeout": 300
+  "request_timeout": 300,
+  "rpm": 60,
+  "max_concurrent": 5
 }
 ```
+
+> **Rate Limiting**: You can optionally define `rpm` (Requests Per Minute) and `max_concurrent` directly per model. Use `0` or omit the fields for unlimited access.
 
 **LiteLLM Proxy**
 

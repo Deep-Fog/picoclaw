@@ -596,9 +596,13 @@ Agent 读取 HEARTBEAT.md
   "model": "openai/custom-model",
   "api_base": "https://my-proxy.com/v1",
   "api_key": "sk-...",
-  "request_timeout": 300
+  "request_timeout": 300,
+  "rpm": 60,
+  "max_concurrent": 5
 }
 ```
+
+> **速率限制 (Rate Limiting)**: 可以直接为每个模型设置可选的 `rpm` (每分钟请求数) 和 `max_concurrent` (最大并发数)。填 `0` 或不填表示无限制。
 
 #### 负载均衡
 
